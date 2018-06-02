@@ -12,14 +12,14 @@ class Home extends React.Component {
 	renderLinks() {
 		if (this.state.user) {
 			return (
-				<ul>
+				<ul className="nav-links">
 					<li>Home</li>
 					<li>Logout</li>
 				</ul>
 			)
 		} else {
 			return (
-				<ul>
+				<ul className="nav-links">
 					<Link to="/"><li>Home</li></Link>
 					<Link to="/login"><li>Login</li></Link>
 					<Link to="/register"><li>Register</li></Link>
