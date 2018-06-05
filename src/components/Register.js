@@ -3,7 +3,7 @@ import React from 'react';
 class Register extends React.Component {
 	render() {
 		return (
-			<div>
+			<div className="register">
 				<div className="page-header">
 					<h1>User Registration</h1>
 				</div>
