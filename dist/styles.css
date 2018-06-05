@@ -6,6 +6,7 @@ body {
 	margin: 0;
 	padding: 0;
 	font-size: 1.3em;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -64,5 +65,43 @@ li {
 .timer {
 	margin-left: 40px;
 	display: inline-block;
+}
+
+/***********************
+        REGISTER      */
+
+.register {
+	width: 90%;
+	margin: auto;
+	margin-top: 40px;
+}
+
+form label {
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+form input {
+	width: 100%;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.4;
+	color: #555;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+form button {
+	background-color: #337ab7;
+	font-size: 14px;
+	line-height: 1.4;
+	text-align: center;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+
+form button:hover {
+	background-color: #286090;
 }
 
