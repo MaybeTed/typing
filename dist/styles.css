@@ -7,3 +7,62 @@ body {
 	padding: 0;
 	font-size: 1.3em;
 }
+
+a {
+	text-decoration: none;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	display: inline-block;
+	padding: 5px 10px;
+}
+
+.nav-links {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.main-container {
+	border: 1px solid black;
+	margin: auto;
+	margin-top: 50px;
+	width: 75%;
+}
+
+.main-container p {
+	padding: 0 15px;
+}
+
+.stats {
+	border-bottom: 1px solid black;
+	font-size: 2em;
+}
+
+.text {
+	font-size: 1.8em;
+}
+
+.highlighted {
+	background: gray;
+}
+
+.start-button {
+	border: 1px solid black;
+	background: green;
+	padding: 0 5px;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.timer {
+	margin-left: 40px;
+	display: inline-block;
+}
+
