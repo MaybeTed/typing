@@ -12,7 +12,9 @@ class Register extends React.Component {
 			usernameError: '',
 			emailError: '',
 			firstPasswordError: '',
-			confirmPasswordError: ''
+			confirmPasswordError: '',
+			registrationSuccess: '',
+			serverResponseError: ''
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,12 +37,18 @@ class Register extends React.Component {
 		let userInfo = {
 			username: this.state.username,
 			email: this.state.email,
-			firstPassword: this.state.firstPassword,
-			confirmPassword: this.state.confirmPassword
+			password: this.state.firstPassword
 		}
 
-		axios.post('/api/register', userInfo);
-		
+		axios.post('/api/register', userInfo)
+			.then((response) => {
+				if (response.data.success) {
+					// todo: handle successful registration
+					this.setState({ serverResponseError: '', registrationSuccess: response.data.message });
+				} else {
+					this.setState({ serverResponseError: response.data.message, registrationSuccess: '' });
+				}
+			})		
 	}
 
 	checkForErrors(type) {
@@ -49,7 +57,7 @@ class Register extends React.Component {
 				this.setState({ usernameError: 'username must be more than 2 characters' });
 			} else if (this.state.username.length > 11) {
 				this.setState({ usernameError: 'username must be less than 12 characters' });
-			} else if (!/^[a-zA-Z0-9_]*$/g.test(this.state.username)) {
+			} else if (!/^[a-zA-Z0-9_]*$/.test(this.state.username)) {
 				this.setState({ usernameError: 'username can not contain special characters besides underscore' });
 			} else {
 				this.setState({ usernameError: '' });
@@ -166,6 +174,18 @@ class Register extends React.Component {
 					<br />
 					<button type="submit">Register</button>
 				</form>
+
+				<br />
+				{this.state.registrationSuccess ? 
+					<div className="registration-success">{this.state.registrationSuccess}</div>
+					:
+					null
+				}
+				{this.state.serverResponseError ? 
+					<div className="registration-fail">{this.state.serverResponseError}</div>
+					:
+					null
+				}
 			</div>
 		)
 	}
