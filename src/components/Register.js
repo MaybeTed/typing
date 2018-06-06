@@ -1,6 +1,90 @@
 import React from 'react';
 
 class Register extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			username: '',
+			email: '',
+			firstPassword: '',
+			confirmPassword: '',
+			usernameError: '',
+			emailError: '',
+			firstPasswordError: '',
+			confirmPasswordError: ''
+		}
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleChange(e) {
+		let target = e.target;
+		let value = target.value;
+		let name = target.name;
+		this.setState({ [name]: value }, () => this.checkForErrors(name));
+	}
+
+	handleSubmit(event) {
+		event.preventDefault();
+		if (!this.validate()) {
+			console.log('errors');
+			return;
+		}
+		
+		let userInfo = {
+			username: this.state.username,
+			email: this.state.email,
+			firstPassword: this.state.firstPassword,
+			confirmPassword: this.state.confirmPassword
+		}
+		
+	}
+
+	checkForErrors(type) {
+		if (type === 'username') {
+			if (this.state.username.length < 3) {
+				this.setState({ usernameError: 'username must be more than 2 characters' });
+			} else if (this.state.username.length > 11) {
+				this.setState({ usernameError: 'username must be less than 12 characters' });
+			} else if (!/^[a-zA-Z0-9_]*$/g.test(this.state.username)) {
+				this.setState({ usernameError: 'username can not contain special characters besides underscore' });
+			} else {
+				this.setState({ usernameError: '' });
+			}
+		} else if (type === 'email') {
+			if (!/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(this.state.email)) {
+				this.setState({ emailError: 'this is not a valid email address' });
+			} else {
+				this.setState({ emailError: '' });
+			}
+		} else if (type === 'firstPassword') {
+			if (this.state.firstPassword.length < 5) {
+				this.setState({ firstPasswordError: 'password must be a minimum of 5 characters' });
+			} else if (this.state.firstPassword.length > 20) {
+				this.setState({ firstPasswordError: 'password must be a maximum of 20 characters' });
+			} else if (!/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{5,20}$/.test(this.state.firstPassword)) {
+				this.setState({ firstPasswordError: 'password must contain at least one uppercase letter, lowercase letter, number, and special character' });
+			} else if (this.state.confirmPassword && this.state.firstPassword === this.state.confirmPassword) {
+				this.setState({ firstPasswordError: '', confirmPasswordError: '' });
+			} else {
+				this.setState({ firstPasswordError: '' });
+			}
+		} else if (type === 'confirmPassword') {
+			if (this.state.firstPassword !== this.state.confirmPassword) {
+				this.setState({ confirmPasswordError: 'passwords do not match' });
+			} else {
+				this.setState({ confirmPasswordError: '' });
+			}
+		}
+	}
+
+	validate() {
+		if (this.state.usernameError || this.state.emailError || this.state.firstPasswordError || this.state.confirmPasswordError) {
+			return false;
+		}
+		return true;
+	}
+
 	render() {
 		return (
 			<div className="register">
@@ -8,25 +92,73 @@ class Register extends React.Component {
 					<h1>User Registration</h1>
 				</div>
 
-				<form>
+				<form onSubmit={this.handleSubmit}>
 					<div>
 						<label>Username:</label>
-						<input type="text" name="name" placeholder="please enter username" required />
+						<input className={this.state.usernameError ? "error" : ""}
+							   type="text"
+							   name="username"
+							   placeholder="please enter username"
+							   value={this.state.username}
+							   onChange={this.handleChange}
+							   required
+						/>
+						{this.state.usernameError ?
+							<p>{this.state.usernameError}</p>
+							:
+							null
+						}
 					</div>
 					<br />
 					<div>
 						<label>Email:</label>
-						<input type="text" name="email" placeholder="please enter email" required />
+						<input className={this.state.emailError ? "error" : ""}
+							   type="text"
+							   name="email"
+							   placeholder="please enter email"
+							   value={this.state.email}
+							   onChange={this.handleChange}
+							   required
+						/>
+						{this.state.emailError ?
+							<p>{this.state.emailError}</p>
+							:
+							null
+						}
 					</div>
 					<br />
 					<div>
 						<label>Password:</label>
-						<input type="password" name="firstPassword" placeholder="please enter password" required />
+						<input className={this.state.passwordError ? "error" : ""}
+							   type="password"
+							   name="firstPassword"
+							   placeholder="please enter password"
+							   value={this.state.firstPassword}
+							   onChange={this.handleChange}
+							   required
+						/>
+						{this.state.firstPasswordError ?
+							<p>{this.state.firstPasswordError}</p>
+							:
+							null
+						}
 					</div>
 					<br />
 					<div>
 						<label>Confirm Password:</label>
-						<input type="password" name="confirmPassword" placeholder="please enter password" required />
+						<input className={this.state.confirmPasswordError ? "error" : ""}
+							   type="password"
+							   name="confirmPassword"
+							   placeholder="please enter password"
+							   value={this.state.confirmPassword}
+							   onChange={this.handleChange}
+							   required
+						/>
+						{this.state.confirmPasswordError ?
+							<p>{this.state.confirmPasswordError}</p>
+							:
+							null
+						}
 					</div>
 					<br />
 					<button type="submit">Register</button>
