@@ -12,6 +12,7 @@ class Home extends React.Component {
 			i: 0,
 			gameStarted: false
 		}
+		this.getText = this.getText.bind(this);
 		this.handleTyping = this.handleTyping.bind(this);
 		this.startTimer = this.startTimer.bind(this);
 	}
@@ -25,7 +26,7 @@ class Home extends React.Component {
 		let typed = text.slice(0, i);
 		let words = typed.split(' ');
 		alert('Congratulations! You typed ' + words.length + ' words!');
-		this.setState({ i: 0, timeRemaining: 60, gameStarted: false })
+		this.setState({ i: 0, timeRemaining: 60, gameStarted: false }, () => {this.getText()})
 	}
 
 	getText() {
