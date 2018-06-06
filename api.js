@@ -23,7 +23,11 @@ module.exports = function(router) {
 						}
 					} else {
 						if (err.code === 11000) {
-							res.json({ success: false, message: 'Username or email already taken' });
+							if (err.errmsg.includes('email')) {
+								res.json({ success: false, message: 'Email already taken' });
+							} else {
+								res.json({ success: false, message: 'Username already taken' });
+							}
 						} else {
 							res.json({ success: false, message: err });
 						}
