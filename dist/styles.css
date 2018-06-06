@@ -117,3 +117,19 @@ form button:hover {
 	background-color: #286090;
 }
 
+.registration-success {
+	background-color: #dff0d8;
+	border: 1px solid #d6e9c6;
+	color: #3c763d;
+	padding: 20px 15px;
+	font-size: 15px;
+}
+
+.registration-fail {
+	background-color: #f2dede;
+	border: 1px solid #ebccd1;
+	color: #a94442;
+	padding: 20px 15px;
+	font-size: 15px;
+}
+
