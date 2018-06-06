@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class Register extends React.Component {
 	constructor() {
@@ -37,6 +38,8 @@ class Register extends React.Component {
 			firstPassword: this.state.firstPassword,
 			confirmPassword: this.state.confirmPassword
 		}
+
+		axios.post('/api/register', userInfo);
 		
 	}
 
