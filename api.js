@@ -73,7 +73,12 @@ module.exports = function(router) {
 		} else {
 			res.json({ success: false, message: 'No user' });
 		}
-	})
+	});
+
+	router.get('/logout', (req, res) => {
+		req.session.destroy();
+		res.end();
+	});
 
 
 
