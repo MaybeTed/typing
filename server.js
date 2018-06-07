@@ -5,11 +5,19 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const router = express.Router();
 const appRoutes = require('./api')(router);
+const secret = require('./config.js');
+const session = require('express-session');
 
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+	secret: secret,
+	saveUninitialized: true,
+	resave: false,
+	cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 }
+}));
 app.use(express.static(path.join(__dirname + '/dist')));
 app.use('/api', appRoutes);
 

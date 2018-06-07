@@ -1,4 +1,6 @@
 const User = require('./db/user');
+const secret = require('./config');
+const session = require('express-session');
 
 module.exports = function(router) {
 	router.post('/register', (req, res) => {
@@ -38,6 +40,42 @@ module.exports = function(router) {
 			});
 		}
 	});
+
+	router.post('/login', (req, res) => {
+		User.findOne({ email: req.body.email }).select('email username password').exec(function(err, user) {
+			if (err) throw err;
+
+			if (!user) {
+				res.json({ success: false, message: 'Could not find an account with that email address' });
+			} else if (user) {
+				if (req.body.password) {
+					var validPassword = user.comparePassword(req.body.password);
+				} else {
+					res.json({ success: false, message: 'No password provided' });
+				}
+				
+				if (!validPassword) {
+					res.json({ success: false, message: 'Incorrect password' });
+				} else {
+					req.session.user = {
+						username: user.username,
+						email: user.email
+					}
+					res.json({ success: true, message: 'User authenticated' });
+				}
+			}
+		});
+	});
+
+	router.get('/getUser', (req, res) => {
+		if (req.session.user) {
+			res.json({ success: true, user: req.session.user });
+		} else {
+			res.json({ success: false, message: 'No user' });
+		}
+	})
+
+
 
 	return router;
 }
