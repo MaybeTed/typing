@@ -1,6 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
+const mapStateToProps = (state) => {
+	return {
+		auth: state.auth
+	}
+}
 
 class Home extends React.Component {
 	constructor() {
@@ -48,25 +54,6 @@ class Home extends React.Component {
 		}
 	}
 
-	renderLinks() {
-		if (this.state.user) {
-			return (
-				<ul className="nav-links">
-					<li>Home</li>
-					<li>Logout</li>
-				</ul>
-			)
-		} else {
-			return (
-				<ul className="nav-links">
-					<li><Link to="/">Home</Link></li>
-					<li><Link to="/login">Login</Link></li>
-					<li><Link to="/register">Register</Link></li>
-				</ul>
-			)
-		}
-	}
-
 	renderText() {
 		let { text, i } = this.state;
 		let highlighted = text.slice(0, i);
@@ -95,7 +82,6 @@ class Home extends React.Component {
 	render() {
 		return (
 			<div tabIndex="0" onKeyDown={this.handleTyping}>
-				{this.renderLinks()}
 				<div className="main-container">
 					<div className="stats">
 						<div className="start-button" onClick={this.startTimer}>Start</div>
@@ -108,4 +94,4 @@ class Home extends React.Component {
 	}
 }
 
-export default Home;
+export default connect(mapStateToProps)(Home);
