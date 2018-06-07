@@ -158,6 +158,20 @@ form button:hover {
 	text-align: center;
 }
 
+/***********************
+       Profile        */
+
+.profile-header {
+	background: #ff6600;
+	width: 100%;
+	margin-top: 50px;
+	padding: 10px 15px;
+}
+
+.profile-header li {
+	margin-right: 50px;
+}
+
 
 /***********************
      MEDIA QUERIES    */
