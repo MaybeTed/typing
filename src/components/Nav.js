@@ -24,6 +24,7 @@ class Nav extends React.Component {
 			return (
 				<ul className="nav-links">
 					<li><Link to="/">Home</Link></li>
+					<li><Link to={`/profile/${this.props.auth.user.username}`}>Profile</Link></li>
 					<li onClick={this.logout}>Logout</li>
 				</ul>
 			)

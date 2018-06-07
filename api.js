@@ -100,6 +100,14 @@ module.exports = function(router) {
 		});
 	});
 
+	router.get('/profile', (req, res) => {
+		const { name } = req.query;
+		Scores.find({ username: name }).exec(function(err, results) {
+			if (err) throw err;
+			res.json({ scores: results });
+		});
+	});
+
 
 
 	return router;

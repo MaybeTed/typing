@@ -12,7 +12,6 @@ Actions.fetchUser = async () => {
 }
 
 Actions.populateProfile = async (username) => {
-	console.log('username actions: ', username)
 	const response = await axios(`/api/profile?name=${username}`);
 	store.dispatch({
 		type: 'POPULATE_PROFILE',
