@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Leaders from './Leaders';
 
 const mapStateToProps = (state) => {
 	return {
@@ -81,7 +82,7 @@ class Home extends React.Component {
 
 	render() {
 		return (
-			<div tabIndex="0" onKeyDown={this.handleTyping}>
+			<div className="home-wrapper" tabIndex="0" onKeyDown={this.handleTyping}>
 				<div className="main-container">
 					<div className="stats">
 						<div className="start-button" onClick={this.startTimer}>Start</div>
@@ -89,6 +90,7 @@ class Home extends React.Component {
 					</div>
 					<div className="text">{this.renderText()}</div>
 				</div>
+				<Leaders />
 			</div>
 		)
 	}
