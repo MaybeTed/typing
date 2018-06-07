@@ -4,10 +4,19 @@ import store from '../../store';
 const Actions = {};
 
 Actions.fetchUser = async () => {
-	const request = await axios('/api/getUser');
+	const response = await axios('/api/getUser');
 	store.dispatch({
 		type: 'FETCH_USER',
-		payload: request.data
+		payload: response.data
+	});
+}
+
+Actions.populateProfile = async (username) => {
+	console.log('username actions: ', username)
+	const response = await axios(`/api/profile?name=${username}`);
+	store.dispatch({
+		type: 'POPULATE_PROFILE',
+		payload: response.data
 	});
 }
 
