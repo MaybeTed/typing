@@ -34,7 +34,10 @@ li {
 	border: 1px solid black;
 	margin: auto;
 	margin-top: 50px;
-	width: 75%;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 70%;
+	display: inline-block;
 }
 
 .main-container p {
@@ -131,5 +134,53 @@ form button:hover {
 	color: #a94442;
 	padding: 20px 15px;
 	font-size: 15px;
+}
+
+/***********************
+        Leaders       */
+
+.leaderboard {
+	border: 1px solid black;
+	width: 15%;
+	text-align: center;
+	position: absolute;
+	right: 5%;
+	top: 50px;
+}
+
+.leaderboard table {
+	border: 1px solid black;
+	margin: auto;
+	margin-bottom: 15px;
+}
+
+.leaderboard td {
+	text-align: center;
+}
+
+
+/***********************
+     MEDIA QUERIES    */
+
+@media only screen and (max-width:1134px) {
+	.main-container {
+		width: 90%;
+		display: block;
+		margin: auto;
+		margin-top: 50px;
+	}
+
+	.leaderboard {
+		position: static;
+		width: 338px;
+		margin: auto;
+		margin-top: 30px;
+	}
+}
+
+@media only screen and (max-width:750px) {
+	.text {
+		font-size: 1.2em;
+	}
 }
 
