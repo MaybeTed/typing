@@ -1,4 +1,5 @@
 const User = require('./db/user');
+const Scores = require('./db/scores');
 const secret = require('./config');
 const session = require('express-session');
 
@@ -78,6 +79,25 @@ module.exports = function(router) {
 	router.get('/logout', (req, res) => {
 		req.session.destroy();
 		res.end();
+	});
+
+	router.post('/postScore', (req, res) => {
+		const score = new Scores();
+		score.username = req.body.username;
+		if (req.body.email) {
+			score.email = req.body.email;
+		}
+		score.score = req.body.score;
+		score.date = Date.now();
+		score.save();
+		res.end();
+	});
+
+	router.get('/leaders', (req, res) => {
+		Scores.find().sort({ 'score': -1 }).limit(10).exec(function(err, results) {
+			if (err) throw err;
+			res.json({ leaders: results });
+		});
 	});
 
 
