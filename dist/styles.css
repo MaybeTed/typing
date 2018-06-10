@@ -7,6 +7,7 @@ body {
 	padding: 0;
 	font-size: 1.3em;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background: #ccc;
 }
 
 a {
@@ -24,11 +25,17 @@ li {
 	padding: 5px 10px;
 }
 
+/*****************
+	   NAV      */
+
 .nav-links {
 	position: absolute;
 	top: 0;
 	right: 0;
 }
+
+/****************
+	  HOME     */
 
 .main-container {
 	border: 1px solid black;
@@ -164,7 +171,7 @@ form button:hover {
 .profile-header {
 	background: #ff6600;
 	width: 100%;
-	margin-top: 50px;
+	margin-top: 35px;
 	padding: 10px 15px;
 }
 
@@ -172,11 +179,45 @@ form button:hover {
 	margin-right: 50px;
 }
 
+.svg-container {
+	width: 400px;
+}
+
+.svg-container h3 {
+	text-align: center;
+	margin: 0;
+}
+
+/*********************
+		GRAPH       */
+
+.line {
+	fill: none;
+	stroke: red;
+	stroke-width: 2px;
+}
 
 /***********************
      MEDIA QUERIES    */
 
 @media only screen and (max-width:1134px) {
+	.main-container {
+		width: 60%;
+		display: block;
+		margin-left: 5%;
+		margin-top: 50px;
+	}
+
+	.leaderboard {
+		width: 220px;
+	}
+
+	.text {
+		font-size: 1.2em;
+	}
+}
+
+@media only screen and (max-width:815px) {
 	.main-container {
 		width: 90%;
 		display: block;
@@ -189,12 +230,6 @@ form button:hover {
 		width: 338px;
 		margin: auto;
 		margin-top: 30px;
-	}
-}
-
-@media only screen and (max-width:750px) {
-	.text {
-		font-size: 1.2em;
 	}
 }
 
