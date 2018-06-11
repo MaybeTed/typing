@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 class Leaders extends React.Component {
 	constructor() {
@@ -9,7 +10,11 @@ class Leaders extends React.Component {
 		}
 	}
 
-	componentDidMount() {
+	componentWillReceiveProps() {
+		this.getLeaders();
+	}
+
+	getLeaders() {
 		axios.get('/api/leaders')
 			.then((response) => {
 				this.setState({ leaders: response.data.leaders });
@@ -30,7 +35,7 @@ class Leaders extends React.Component {
 						  {this.state.leaders.map((person, i) => {
 							  return (
 							  	<tr key={i}>
-							  		<td>{person.username}</td>
+							  		<td><Link to={`/profile/${person.username}`}>{person.username}</Link></td>
 							  		<td>{person.score}</td>
 							  	</tr>
 							  )
