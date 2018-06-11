@@ -23,6 +23,7 @@ ul {
 li {
 	display: inline-block;
 	padding: 5px 10px;
+	cursor: pointer;
 }
 
 /*****************
@@ -186,6 +187,11 @@ form button:hover {
 .svg-container h3 {
 	text-align: center;
 	margin: 0;
+}
+
+.no-scores-msg {
+	margin-top: 150px;
+	text-align: center;
 }
 
 /*********************
