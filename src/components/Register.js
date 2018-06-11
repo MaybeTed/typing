@@ -1,9 +1,11 @@
 import React from 'react';
 import axios from 'axios';
+import Actions from '../actions/index';
+import { withRouter } from 'react-router-dom';
 
 class Register extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			username: '',
 			email: '',
@@ -29,6 +31,7 @@ class Register extends React.Component {
 
 	handleSubmit(event) {
 		event.preventDefault();
+		const self = this;
 		if (!this.validate()) {
 			console.log('errors');
 			return;
@@ -43,8 +46,12 @@ class Register extends React.Component {
 		axios.post('/api/register', userInfo)
 			.then((response) => {
 				if (response.data.success) {
-					// todo: handle successful registration
-					this.setState({ serverResponseError: '', registrationSuccess: response.data.message });
+					this.setState({ serverResponseError: '', registrationSuccess: response.data.message }, () => {
+						setTimeout(() => {
+							Actions.fetchUser();
+							self.props.history.push('/');
+						}, 1000);
+					});
 				} else {
 					this.setState({ serverResponseError: response.data.message, registrationSuccess: '' });
 				}
@@ -53,39 +60,55 @@ class Register extends React.Component {
 
 	checkForErrors(type) {
 		if (type === 'username') {
-			if (this.state.username.length < 3) {
-				this.setState({ usernameError: 'username must be more than 2 characters' });
-			} else if (this.state.username.length > 11) {
-				this.setState({ usernameError: 'username must be less than 12 characters' });
-			} else if (!/^[a-zA-Z0-9_]*$/.test(this.state.username)) {
-				this.setState({ usernameError: 'username can not contain special characters besides underscore' });
-			} else {
-				this.setState({ usernameError: '' });
-			}
+			this.checkUsername();
 		} else if (type === 'email') {
-			if (!/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(this.state.email)) {
-				this.setState({ emailError: 'this is not a valid email address' });
-			} else {
-				this.setState({ emailError: '' });
-			}
+			this.checkEmail();
 		} else if (type === 'firstPassword') {
-			if (this.state.firstPassword.length < 5) {
-				this.setState({ firstPasswordError: 'password must be a minimum of 5 characters' });
-			} else if (this.state.firstPassword.length > 20) {
-				this.setState({ firstPasswordError: 'password must be a maximum of 20 characters' });
-			} else if (!/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{5,20}$/.test(this.state.firstPassword)) {
-				this.setState({ firstPasswordError: 'password must contain at least one uppercase letter, lowercase letter, number, and special character' });
-			} else if (this.state.confirmPassword && this.state.firstPassword === this.state.confirmPassword) {
-				this.setState({ firstPasswordError: '', confirmPasswordError: '' });
-			} else {
-				this.setState({ firstPasswordError: '' });
-			}
+			this.checkFirstPassword();
 		} else if (type === 'confirmPassword') {
-			if (this.state.firstPassword !== this.state.confirmPassword) {
-				this.setState({ confirmPasswordError: 'passwords do not match' });
-			} else {
-				this.setState({ confirmPasswordError: '' });
-			}
+			this.checkConfirmPassword();
+		}
+	}
+
+	checkUsername() {
+		if (this.state.username.length < 3) {
+			this.setState({ usernameError: 'username must be more than 2 characters' });
+		} else if (this.state.username.length > 11) {
+			this.setState({ usernameError: 'username must be less than 12 characters' });
+		} else if (!/^[a-zA-Z0-9_]*$/.test(this.state.username)) {
+			this.setState({ usernameError: 'username can not contain special characters besides underscore' });
+		} else {
+			this.setState({ usernameError: '' });
+		}
+	}
+
+	checkEmail() {
+		if (!/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(this.state.email)) {
+			this.setState({ emailError: 'this is not a valid email address' });
+		} else {
+			this.setState({ emailError: '' });
+		}
+	}
+
+	checkFirstPassword() {
+		if (this.state.firstPassword.length < 5) {
+			this.setState({ firstPasswordError: 'password must be a minimum of 5 characters' });
+		} else if (this.state.firstPassword.length > 20) {
+			this.setState({ firstPasswordError: 'password must be a maximum of 20 characters' });
+		} else if (!/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{5,20}$/.test(this.state.firstPassword)) {
+			this.setState({ firstPasswordError: 'password must contain at least one uppercase letter, lowercase letter, number, and special character' });
+		} else if (this.state.confirmPassword && this.state.firstPassword !== this.state.confirmPassword) {
+			this.setState({ firstPasswordError: 'passwords do not match' });
+		} else {
+			this.setState({ firstPasswordError: '', confirmPasswordError: '' });
+		}
+	}
+
+	checkConfirmPassword() {
+		if (this.state.firstPassword !== this.state.confirmPassword) {
+			this.setState({ confirmPasswordError: 'passwords do not match' });
+		} else {
+			this.setState({ confirmPasswordError: '', firstPasswordError: '' });
 		}
 	}
 
@@ -140,7 +163,7 @@ class Register extends React.Component {
 					<br />
 					<div>
 						<label>Password:</label>
-						<input className={this.state.passwordError ? "error" : ""}
+						<input className={this.state.firstPasswordError ? "error" : ""}
 							   type="password"
 							   name="firstPassword"
 							   placeholder="please enter password"
@@ -191,4 +214,4 @@ class Register extends React.Component {
 	}
 }
 
-export default Register;
+export default withRouter(Register);

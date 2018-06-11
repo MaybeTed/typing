@@ -36,7 +36,11 @@ module.exports = function(router) {
 						}
 					}
 				} else {
-					res.json({ success: true, message: 'user added to database' });
+					req.session.user = {
+						username: user.username,
+						email: user.email
+					}
+					res.json({ success: true, message: 'user added to database', username: user.username, email: user.email });
 				}
 			});
 		}
