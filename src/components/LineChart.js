@@ -14,26 +14,21 @@ class LineChart extends React.Component {
 	}
 
 	componentDidMount() {
-		this.update();
+		this.update(this.props.user);
 	}
 
-	// componentWillUnmount() {
-	// 	d3.select('svg').selectAll('*').remove();
-	// }
-
-	componentWillReceiveProps() {
-		console.log('will receive props running')
-		this.update();
+	componentWillReceiveProps(nextProps) {
+		this.update(nextProps.user);
 	}
 
-	update() {
-		console.log('update running')
+	update(props) {
+		d3.select("g").remove();
 		const data = [];
-	    this.props.user.scores.forEach((item) => {
+	    props.scores.forEach((item) => {
 	    	data.push(item.score);
 	    });
 
-      	const margin = { top: 20, right: 60, bottom: 30, left: 40 };
+      	const margin = { top: 20, right: 50, bottom: 20, left: 50 };
       	const width = 300;
       	const height = 300;
       	const x = d3.scaleLinear().domain([0,data.length - 1]).range([0,width]);
@@ -44,40 +39,37 @@ class LineChart extends React.Component {
 	    .y(function(d) { return y(d); })
 	    .curve(d3.curveMonotoneX);
 
-        const svg = d3.select(this.refs.anchor)
+        const g = d3.select(this.refs.anchor)
     	.attr("width", width + margin.left + margin.right)
     	.attr("height", height + margin.top + margin.bottom)
   		.append("g")
     	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
-
-	    //x.domain(data.map((d, i) => d));
 	    y.domain([0, d3.max(data, d => d)]);
 
-	    svg.append("path")
+	    var path = g.append("path")
 	      .datum(data)
 	      .attr("class", "line")
 	      .attr("d", valueline);
 
 	    // Add the X Axis
-		  svg.append("g")
-		      .attr("transform", "translate(0," + height + ")")
-		      .call(d3.axisBottom(x));
+		g.append("g")
+		    .attr("transform", "translate(0," + height + ")")
+		    .call(d3.axisBottom(x).ticks(0));
 
 		// Add the Y Axis
-		  svg.append("g")
-		      .call(d3.axisLeft(y));
+		g.append("g")
+		    .call(d3.axisLeft(y));
 
-		svg.selectAll(".dot")
+		g.selectAll(".dot")
     	.data(data)
-  		.enter().append("circle") // Uses the enter().append() method
-    	.attr("class", "dot") // Assign a class for styling
+  		.enter().append("circle")
+    	.attr("class", "dot")
     	.attr("cx", function(d, i) { return x(i) })
     	.attr("cy", function(d) { return y(d) })
-    	.attr("r", 5);
-
-    	svg.selectAll(".dot").exit().remove;
+    	.attr("r", 5)
+    	.append("title")
+        .text(function(d){ return d });
 	}
 
 	render() {
@@ -86,12 +78,12 @@ class LineChart extends React.Component {
 			height: '400px'
 		}
 
-		if (this.props.user.scores && this.props.user.scores.length > 1) {
-			console.log('running')
+		if (this.props.user.scores) {
 			return (
-				<svg style={svgStyles}>
-					<g ref="anchor" />
-				</svg>
+				<div className="svg-container">
+					<svg style={svgStyles} ref="anchor"></svg>
+					<h3>User Scores</h3>
+				</div>
 			)
 		}
 
