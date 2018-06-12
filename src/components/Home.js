@@ -109,6 +109,10 @@ class Home extends React.Component {
 					</div>
 					<div className="text">{this.renderText()}</div>
 				</div>
+				<section className="directions">
+					{this.props.auth && !this.props.auth.user ? <p>Don't forget to log in so that your scores get saved!</p> : null }
+					<p>Directions: Click the start button and type as much as you can from the paragraph above until the timer runs out.</p>
+				</section>
 				<Leaders gameStarted={this.state.gameStarted}/>
 			</div>
 		)
