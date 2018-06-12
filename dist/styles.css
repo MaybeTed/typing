@@ -40,6 +40,7 @@ li {
 }
 
 .nav-links li {
+	color: #2200CC;
 	cursor: pointer;
 }
 
@@ -95,6 +96,16 @@ li {
 
 .hide {
 	opacity: 0;
+}
+
+.directions {
+	background: #949494;
+	margin-left: 5%;
+	margin-right: 25%;
+	margin-top: 20px;
+	padding: 5px 20px;
+	border: 1px solid black;
+	border-radius: 11px;
 }
 
 /***********************
@@ -187,6 +198,10 @@ form button:hover {
 	text-align: center;
 }
 
+.more-leaders-button {
+	margin-bottom: 10px;
+}
+
 /***********************
        Profile        */
 
@@ -242,6 +257,10 @@ form button:hover {
 	.text {
 		font-size: 1.2em;
 	}
+
+	.directions {
+		margin-right: 35%;
+	}
 }
 
 @media only screen and (max-width:815px) {
@@ -257,6 +276,10 @@ form button:hover {
 		width: 338px;
 		margin: auto;
 		margin-top: 30px;
+	}
+
+	.directions {
+		margin-right: 5%;
 	}
 }
 
