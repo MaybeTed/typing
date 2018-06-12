@@ -1,6 +1,5 @@
 const User = require('./db/user');
 const Scores = require('./db/scores');
-const secret = require('./config');
 const session = require('express-session');
 
 module.exports = function(router) {
