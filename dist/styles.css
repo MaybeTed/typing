@@ -12,6 +12,11 @@ body {
 
 a {
 	text-decoration: none;
+	color: #2200CC;
+}
+
+a:visited {
+	color: #2200CC;
 }
 
 ul {
@@ -41,14 +46,20 @@ li {
 /****************
 	  HOME     */
 
+.home-wrapper:focus {
+	outline: none;
+}
+
 .main-container {
 	border: 1px solid black;
+	border-radius: 11px;
 	margin: auto;
 	margin-top: 50px;
 	margin-left: 5%;
 	margin-right: 5%;
 	width: 70%;
 	display: inline-block;
+	background: #949494;
 }
 
 .main-container p {
@@ -70,6 +81,7 @@ li {
 
 .start-button {
 	border: 1px solid black;
+	border-radius: 9px 0 0 0;
 	background: green;
 	padding: 0 5px;
 	display: inline-block;
@@ -79,6 +91,10 @@ li {
 .timer {
 	margin-left: 40px;
 	display: inline-block;
+}
+
+.hide {
+	opacity: 0;
 }
 
 /***********************
@@ -152,11 +168,13 @@ form button:hover {
 
 .leaderboard {
 	border: 1px solid black;
+	border-radius: 50px;
 	width: 15%;
 	text-align: center;
 	position: absolute;
 	right: 5%;
 	top: 50px;
+	background: #949494;
 }
 
 .leaderboard table {
