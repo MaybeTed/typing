@@ -14,8 +14,8 @@ class Leaders extends React.Component {
 		this.getLeaders();
 	}
 
-	getLeaders() {
-		axios.get('/api/leaders')
+	getLeaders(more) {
+		axios.get(`/api/leaders?more=${more}`)
 			.then((response) => {
 				this.setState({ leaders: response.data.leaders });
 			})
@@ -43,6 +43,11 @@ class Leaders extends React.Component {
 						  }
 					  	</tbody>
 				    </table>
+				    {this.state.leaders.length < 11 ? 
+				    	<button onClick={() => this.getLeaders('more')} className="more-leaders-button">More...</button>
+				    	:
+				    	null
+					}
 				</div>
 			)
 		}
