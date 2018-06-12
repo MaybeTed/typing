@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 class Leaders extends React.Component {
 	constructor() {
@@ -9,8 +10,12 @@ class Leaders extends React.Component {
 		}
 	}
 
-	componentDidMount() {
-		axios.get('/api/leaders')
+	componentWillReceiveProps() {
+		this.getLeaders();
+	}
+
+	getLeaders(more) {
+		axios.get(`/api/leaders?more=${more}`)
 			.then((response) => {
 				this.setState({ leaders: response.data.leaders });
 			})
@@ -30,7 +35,7 @@ class Leaders extends React.Component {
 						  {this.state.leaders.map((person, i) => {
 							  return (
 							  	<tr key={i}>
-							  		<td>{person.username}</td>
+							  		<td><Link to={`/profile/${person.username}`}>{person.username}</Link></td>
 							  		<td>{person.score}</td>
 							  	</tr>
 							  )
@@ -38,6 +43,11 @@ class Leaders extends React.Component {
 						  }
 					  	</tbody>
 				    </table>
+				    {this.state.leaders.length < 11 ? 
+				    	<button onClick={() => this.getLeaders('more')} className="more-leaders-button">More...</button>
+				    	:
+				    	null
+					}
 				</div>
 			)
 		}

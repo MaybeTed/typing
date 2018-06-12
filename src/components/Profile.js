@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Actions from '../actions/index';
+import LineChart from './LineChart';
 
 const mapStateToProps = (state) => {
 	return {
@@ -10,6 +11,9 @@ const mapStateToProps = (state) => {
 }
 
 class Profile extends React.Component {
+	constructor() {
+		super();
+	}
 
 	componentDidMount() {
 		Actions.populateProfile(this.props.match.params.username);
@@ -42,13 +46,11 @@ class Profile extends React.Component {
 							<li>Average Score: {this.averageScore()}</li>
 						</ul>
 					</header>
-					{this.props.user.scores.map((score, i) => {
-						return <p key={i}>{score.score}</p>
-					})}
+					<LineChart data={this.props.user.scores}/>
 				</div>
 			)
 		} else {
-			return <h3>{this.props.match.params.username} doesn't have any scores yet.</h3>
+			return <h3 className="no-scores-msg">{this.props.match.params.username} doesn't exist or doesn't have any scores yet.</h3>
 		}
 	}
 }
