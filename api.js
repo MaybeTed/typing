@@ -98,7 +98,11 @@ module.exports = function(router) {
 	});
 
 	router.get('/leaders', (req, res) => {
-		Scores.find().sort({ 'score': -1 }).limit(10).exec(function(err, results) {
+		let limit = 10;
+		if (req.query.more === 'more') {
+			limit = 25;
+		}
+		Scores.find().sort({ 'score': -1 }).limit(limit).exec(function(err, results) {
 			if (err) throw err;
 			res.json({ leaders: results });
 		});
