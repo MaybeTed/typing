@@ -104,8 +104,8 @@ class Home extends React.Component {
 			<div className="home-wrapper" tabIndex="0" onKeyDown={this.handleTyping}>
 				<div className="main-container">
 					<div className="stats">
-						<div className="start-button" onClick={this.startTimer}>Start</div>
-						<div className="timer">Time: {this.state.timeRemaining}</div>
+						<div className={this.state.gameStarted ? "hide start-button" : "start-button"} onClick={this.startTimer}>Start</div>
+						<div className="timer">Time: <span style={this.state.timeRemaining < 11 ? {color: "#dc3545"} : null}>{this.state.timeRemaining}</span></div>
 					</div>
 					<div className="text">{this.renderText()}</div>
 				</div>
